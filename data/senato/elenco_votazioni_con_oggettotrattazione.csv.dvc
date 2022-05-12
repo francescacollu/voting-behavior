@@ -1,0 +1,4 @@
+outs:
+- md5: 48f6b6363f0eb032f9cf64769e467294
+  size: 1968300
+  path: elenco_votazioni_con_oggettotrattazione.csv

@@ -1,0 +1,4 @@
+outs:
+- md5: f0dcbe6bcd0037f36ec74ea25abb5d47
+  size: 45643
+  path: elenco_gruppi_senato.csv
