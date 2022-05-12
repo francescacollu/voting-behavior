@@ -1,0 +1,23 @@
+#### tutti gli atti della Legislatura XVIII con relative fasi di iter ed eventuale data di approvazione 
+#### (la URI <http://dati.camera.it/ocd/legislatura.rdf/repubblica_18> identifica la Legislatura)
+
+select distinct ?atto ?numero ?iniziativa ?presentazione ?titolo ?fase ?dataIter ?dataApprovazione ?proponente { 
+  	  ?atto a ocd:atto;
+          ocd:iniziativa ?iniziativa; 
+          dc:identifier ?numero; 
+          ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_18>;
+          dc:date ?presentazione;
+          dc:title ?titolo; ocd:rif_statoIter ?statoIter .
+  		  ?statoIter  dc:title ?fase ; dc:date ?dataIter .
+          FILTER(REGEX(?dataIter,'^2018','i'))
+          OPTIONAL{
+            ?atto a ocd:atto;
+            ocd:primo_firmatario ?proponente.
+           }
+          OPTIONAL{
+        	  ?votazione a ocd:votazione; ocd:rif_attoCamera ?atto;
+              ocd:approvato "1"^^xsd:integer;
+              ocd:votazioneFinale "1"^^xsd:integer;
+              dc:date ?dataApprovazione.
+          }
+	  } ORDER BY ?presentazione ?dataIter			

@@ -1,0 +1,29 @@
+PREFIX osr: <http://dati.senato.it/osr/>
+
+SELECT DISTINCT ?ddl ?idFase ?ramo ?legislatura ?numeroFase ?titolo
+?titoloBreve ?natura ?stato ?dataStato ?dataPresentazione
+?presentatoTrasmesso ?testoPresentato ?testoApprovato ?descrIniziativa
+WHERE
+{
+    ?ddl a osr:Ddl.
+    ?ddl osr:idFase ?idFase.
+    ?ddl osr:statoDdl ?stato.
+    ?ddl osr:ramo ?ramo.
+    ?ddl osr:dataPresentazione ?dataPresentazione.
+    ?ddl osr:titolo ?titolo.
+    OPTIONAL { ?ddl osr:titoloBreve ?titoloBreve }.
+    ?ddl osr:presentatoTrasmesso ?presentatoTrasmesso.
+    ?ddl osr:natura ?natura.
+    ?ddl osr:dataStatoDdl ?dataStato.
+    ?ddl osr:numeroFase ?numeroFase.
+    ?ddl osr:numeroFaseCompatto ?numeroFaseCompatto.
+    ?ddl osr:legislatura ?legislatura.
+    ?ddl osr:legislatura 18 .
+    ?ddl osr:descrIniziativa ?descrIniziativa.
+    FILTER(xsd:date(str(?dataPresentazione)) <= xsd:date(str("2021-09-23")))
+    FILTER(xsd:date(str(?dataPresentazione)) >= xsd:date(str("2018-03-23")))
+    FILTER(xsd:date(str(?dataStato)) <= xsd:date(str("2021-09-23")))
+    FILTER(xsd:date(str(?dataStato)) >= xsd:date(str("2018-03-23")))
+    OPTIONAL { ?ddl osr:testoPresentato ?testoPresentato }
+    OPTIONAL { ?ddl osr:testoApprovato ?testoApprovato }
+}

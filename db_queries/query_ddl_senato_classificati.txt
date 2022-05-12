@@ -1,0 +1,20 @@
+# N.B. è stato necessario inserire un filtro sulle date perché il download pone un limite di 10k record. Essendo il numero totale dei ddl classificati (poiché a ognuno corrisponde ben più di un'etichetta il numero di record viene decuplicato - all'incirca) di molto superiore a 10k, mettiamo un filtro temporale pari a un mese e avremo la cura di controllare che il numero di record per ogni csv scaricato sia inferiore a 10k.
+
+PREFIX osr: <http://dati.senato.it/osr/>
+
+SELECT DISTINCT ?ddl ?legislatura ?titolo ?dataPresentazione ?classificazione ?livello ?subject ?label
+WHERE
+{
+    ?ddl a osr:Ddl.
+    ?ddl osr:statoDdl ?stato.
+    ?ddl osr:dataPresentazione ?dataPresentazione.
+    ?ddl osr:titolo ?titolo.
+    ?ddl osr:legislatura ?legislatura.
+    ?ddl osr:legislatura 18 .
+    FILTER(xsd:date(str(?dataPresentazione)) <= xsd:date(str("2018-04-23")))
+    FILTER(xsd:date(str(?dataPresentazione)) >= xsd:date(str("2018-03-23")))
+    ?ddl osr:classificazione ?classificazione.
+    ?classificazione osr:livello ?livello.
+    ?classificazione dcterms:subject ?subject.
+    ?subject skos:prefLabel ?label
+}
