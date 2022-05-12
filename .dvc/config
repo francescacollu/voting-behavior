@@ -1,4 +1,6 @@
 [core]
-    remote = storage
+    remote = storage_senato
 ['remote "storage"']
     url = gdrive://103gJdtq_rqmeTcUsNPIlG_v65P0xcfLA
+['remote "storage_senato"']
+    url = gdrive://1h4m76RJgYi_s_tsxMm5hoJXoQyl7RAM6
