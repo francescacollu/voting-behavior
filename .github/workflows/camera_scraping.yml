@@ -1,0 +1,50 @@
+name: Scraping
+
+on:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      legislature:
+        description: 'Legislature'
+        required: true
+        default: '18'
+      year:
+        description: 'Year'
+        required: true
+        default: '2022'
+
+jobs:
+  scraping1:
+    runs-on: ubuntu-latest
+    
+    env:
+      MIN_INDEX: 0
+      MAX_INDEX: 653
+    
+    steps:
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: Pre-requirements
+        run: |
+          python3 -m pip install pydrive
+      - name: Scraping Camera
+        run: |
+          cd CAMERA
+          python3 RunScrapingCamera.py \
+            --legislature ${{ github.event.inputs.legislature }} \
+            --year ${{ github.event.inputs.year }} \
+            --min_index $MIN_INDEX \
+            --max_index $MAX_INDEX \
+            --folder_name Scraping
+      - name: Upload To Google Drive
+        run: |
+          PREFIX=$(python3 GetJobPrefix.py \
+            --legislature ${{ github.event.inputs.legislature }} \
+            --year ${{ github.event.inputs.year }} \
+            --min_index $MIN_INDEX \
+            --max_index $MAX_INDEX)
+          python3 RunUploadToGoogleDrive.py \
+            --folder_to_upload ./CAMERA/Scraping \
+            --target_folder Camera --job_prefix $PREFIX
