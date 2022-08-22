@@ -20,7 +20,6 @@ jobs:
     
     env:
       MIN_INDEX: 0
-      MAX_INDEX: 653
     
     steps:
       - uses: actions/checkout@v2
